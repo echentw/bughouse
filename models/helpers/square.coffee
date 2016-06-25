@@ -1,28 +1,27 @@
-define(['helpers/constants'], (Constants) ->
+Constants = require('./constants')
 
-  class Square
+class Square
 
-    constructor: ->
+  constructor: ->
 
-    @getColor: (row, col) ->
-      if (row + col) % 2 == 0
-        return Constants.BLACK_SQUARE
-      else
-        return Constants.WHITE_SQUARE
+  @getColor: (row, col) ->
+    if (row + col) % 2 == 0
+      return Constants.BLACK_SQUARE
+    else
+      return Constants.WHITE_SQUARE
 
-    @inBoard: (row, col) ->
-      return (row >= 0 && row < Constants.BOARD_SIZE &&
-              col >= 0 && col < Constants.BOARD_SIZE)
+  @inBoard: (row, col) ->
+    return (row >= 0 && row < Constants.BOARD_SIZE &&
+            col >= 0 && col < Constants.BOARD_SIZE)
 
-    @getStatus: (board, row, col) ->
-      if board[row][col] < 0
-        return Constants.NO_PIECE
+  @getStatus: (board, row, col) ->
+    if board[row][col] <= 0
+      return Constants.NO_PIECE
 
-      else if board[row][col] < Constants.B_PAWN
-        return Constants.WHITE_PIECE
+    else if board[row][col] < Constants.B_PAWN
+      return Constants.WHITE_PIECE
 
-      else
-        return Constants.BLACK_PIECE
+    else
+      return Constants.BLACK_PIECE
 
-  return Square
-)
+module.exports = Square
