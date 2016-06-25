@@ -31,8 +31,8 @@ class Bishop
     while square[0] != toRow
       if Square.getStatus(board, square[0], square[1]) != Constants.NO_PIECE
         return false
-      square[0] + vDir
-      square[1] + hDir
+      square[0] += vDir
+      square[1] += hDir
 
     return true
 
