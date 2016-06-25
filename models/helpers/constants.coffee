@@ -8,6 +8,8 @@ class Constants
   @BLACK_SQUARE: 1
 
   # piece identifiers
+  @NO_PIECE: -1
+
   @W_PAWN: 0
   @W_KNIGHT: 1
   @W_BISHOP: 2
@@ -23,9 +25,8 @@ class Constants
   @B_KING: 11
 
   # the status of a square (occupied by no piece, white piece, or black piece)
-  @NO_PIECE: 0
-  @WHITE_PIECE: 1
-  @BLACK_PIECE: 2
+  @WHITE_PIECE: 0
+  @BLACK_PIECE: 1
 
   # directions (only applicable for pawns)
   @UP: -1

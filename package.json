@@ -3,19 +3,20 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "coffee app.coffee"
+    "start": "coffee app.coffee",
+    "test": "mocha --require should --compilers coffee:coffee-script/register --colors"
   },
   "dependencies": {
-    "express": "~4.0.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
-    "ejs": "~0.8.5"
+    "ejs": "~0.8.5",
+    "express": "~4.0.0",
+    "morgan": "~1.0.0",
+    "static-favicon": "~1.0.0"
   },
   "devDependencies": {
-    "mocha": "0.10.0",
-    "should": "0.5.1"
+    "chai": "*",
+    "mocha": "*"
   }
 }
