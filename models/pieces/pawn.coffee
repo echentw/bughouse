@@ -30,7 +30,7 @@ class Pawn
           when Constants.WHITE_PIECE then Constants.BOARD_SIZE - 2
           else 1
         if fromRow == initialRow
-          return Square.getStatus(board, fromRow + direction, toCol) !=
+          return Square.getStatus(board, fromRow + direction, toCol) ==
             Constants.NO_PIECE
         return false
 
