@@ -14,12 +14,18 @@ class Rook
     if toStatus == fromStatus
       return false
 
+    # at least one of the rows and columns must be the same as the original
+    if toRow != fromRow && toCol != fromCol
+      return false
+
     vertical = (toCol == fromCol)
 
     # vertical move
     if vertical
 
       # get the direction of movement
+      if toRow == fromRow
+        return false
       direction = Math.abs(toRow - fromRow) // (toRow - fromRow)
 
       # check that no piece is between the destination and current square
@@ -27,6 +33,7 @@ class Rook
       while row != toRow
         if Square.getStatus(board, row, toCol) != Constants.NO_PIECE
           return false
+        row += direction
 
       return true
 
@@ -34,6 +41,8 @@ class Rook
     else
 
       # get the direction of movement
+      if toCol == fromCol
+        return false
       direction = Math.abs(toCol - fromCol) // (toCol - fromCol)
 
       # check that no piece is between the destination and current square
@@ -41,6 +50,7 @@ class Rook
       while col != toCol
         if Square.getStatus(board, toRow, col) != Constants.NO_PIECE
           return false
+        col += direction
 
       return true
 
