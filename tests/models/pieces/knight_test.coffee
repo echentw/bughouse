@@ -1,7 +1,7 @@
-_ = require('lodash')
-
 chai = require('chai')
 chai.should()
+
+_ = require('lodash')
 
 Constants = require('../../../models/helpers/constants')
 Square = require('../../../models/helpers/square')
