@@ -32,4 +32,8 @@ class Constants
   @UP: -1
   @DOWN: 1
 
+  # keep track of whose turn it is
+  @TURN_WHITE: 0
+  @TURN_BLACK: 1
+
 module.exports = Constants

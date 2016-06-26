@@ -11,12 +11,66 @@ Queen = require('./pieces/queen')
 King = require('./pieces/king')
 
 class Chess
-  constructor: (player1Id, player2Id) ->
-    @player1Id = player1Id
-    @player2Id = player2Id
+  constructor: (playerWhite, playerBlack) ->
+    @playerWhite = playerWhite
+    @playerBlack = playerBlack
 
     @board = setupBoard()
 
+    @turn = Constants.TURN_WHITE
+
+
+  # returns true iff the move is valid
+  # if the move is valid, then also updates the board
+  move: (fromRow, fromCol, toRow, toCol) =>
+
+    # check that the piece color is correct
+    if @turn == Constants.TURN_WHITE
+      if Square.getStatus(fromRow, fromCol) != Constants.WHITE_PIECE
+        return false
+    else
+      if Square.getStatus(fromRow, fromCol) != Constants.BLACK_PIECE
+        return false
+
+    # determine whether the move is valid
+    valid = false
+    switch @board[fromRow][fromCol]
+      when Constants.W_PAWN, Constants.B_PAWN
+        valid = Pawn.moveValid(@board, fromRow, fromCol, toRow, toCol)
+
+      when Constants.W_KNIGHT, Constants.B_KNIGHT
+        valid = Knight.moveValid(@board, fromRow, fromCol, toRow, toCol)
+
+      when Constants.W_BISHOP, Constants.B_BISHOP
+        valid = Bishop.moveValid(@board, fromRow, fromCol, toRow, toCol)
+
+      when Constants.W_ROOK, Constants.B_ROOK
+        valid = Rook.moveValid(@board, fromRow, fromCol, toRow, toCol)
+
+      when Constants.W_QUEEN, Constants.B_QUEEN
+        valid = Queen.moveValid(@board, fromRow, fromCol, toRow, toCol)
+
+      when Constants.W_KING, Constants.B_KING
+        valid = King.moveValid(@board, fromRow, fromCol, toRow, toCol)
+
+    # if the move is valid
+    if valid
+
+      # move the piece
+      @board[toRow][toCol] = @board[fromRow][fromCol]
+      @board[fromRow][fromCol] = Constants.NO_PIECE
+
+      # switch control to the other player
+      if @turn == Constants.TURN_WHITE
+        @turn = Constants.TURN_BLACK
+      else
+        @turn = Constnats.TURN_WHITE
+
+    return valid
+
+  # PRIVATE
+
+  # initialize the board
   setupBoard = ->
     board = []
 
