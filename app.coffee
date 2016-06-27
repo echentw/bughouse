@@ -7,7 +7,8 @@ bodyParser = require('body-parser')
 debug = require('debug')('my-application')
 
 index = require('./routes/index')
-game = require('./routes/game')
+chess = require('./routes/chess')
+bughouse = require('./routes/bughouse')
 
 app = express()
 
@@ -23,7 +24,8 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', index)
-app.use('/game', game)
+app.use('/chess', chess)
+app.use('/bughouse', bughouse)
 
 #/ catch 404 and forwarding to error handler
 app.use((req, res, next) ->

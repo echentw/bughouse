@@ -2,9 +2,9 @@ express = require('express')
 
 router = express.Router()
 
-# GET index page
+# GET chess game page.
 router.get('/', (req, res) ->
-  res.render 'index', title: 'Bughouse'
+  res.render 'chess', title: 'Bughouse'
 )
 
 module.exports = router
