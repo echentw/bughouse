@@ -36,4 +36,8 @@ class Constants
   @TURN_WHITE: 0
   @TURN_BLACK: 1
 
+  # sides of castling
+  @KINGSIDE: 0
+  @QUEENSISDE: 1
+
 module.exports = Constants

@@ -34,7 +34,8 @@ class Chess
 
     # determine whether the move is valid
     valid = false
-    switch @board[fromRow][fromCol]
+    piece = @board[fromRow][fromCol]
+    switch piece
       when Constants.W_PAWN, Constants.B_PAWN
         valid = Pawn.moveValid(@board, fromRow, fromCol, toRow, toCol)
 
@@ -46,12 +47,14 @@ class Chess
 
       when Constants.W_ROOK, Constants.B_ROOK
         valid = Rook.moveValid(@board, fromRow, fromCol, toRow, toCol)
+        updateCastlingPrivilege(piece, fromRow, fromCol)
 
       when Constants.W_QUEEN, Constants.B_QUEEN
         valid = Queen.moveValid(@board, fromRow, fromCol, toRow, toCol)
 
       when Constants.W_KING, Constants.B_KING
         valid = King.moveValid(@board, fromRow, fromCol, toRow, toCol)
+        updateCastlingPrivilege(piece, fromRow, fromCol)
 
     # if the move is valid
     if valid
@@ -69,6 +72,29 @@ class Chess
     return valid
 
   # PRIVATE
+
+  updateCastlingPrivilege = (piece, fromRow, fromCol) =>
+    if piece == Constants.W_KING
+      @playerWhite.canCastle[Constants.KINGSIDE] = false
+      @playerWhite.canCastle[Constants.QUEENSIDE] = false
+    else if piece == Constants.B_KING
+      @playerBlack.canCastle[Constants.KINGSIDE] = false
+      @playerBlack.canCastle[Constants.QUEENSIDE] = false
+    else
+      if fromRow == 0 && fromCol == 0
+        # rook on A8
+        @playerBlack.canCastle[Constants.QUEENSIDE] = false
+      else if fromRow == 0 && fromCol == Constants.BOARD_SIZE - 1
+        # rook on H8
+        @playerBlack.canCastle[Constants.KINGSIDE] = false
+      else if fromRow == Constants.BOARD_SIZE - 1 && fromCol == 0
+        # rook on A1
+        @playerWhite.canCastle[Constants.QUEENSIDE] = false
+      else if fromRow == Constants.BOARD_SIZE - 1 &&
+          fromCol == Constants.BOARD_SIZE - 1
+        # rook on A8
+        @playerWhite.canCastle[Constants.KINGSIDE = false
+
 
   # initialize the board
   setupBoard = ->
