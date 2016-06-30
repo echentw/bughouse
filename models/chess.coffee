@@ -16,11 +16,8 @@ class Chess
       white: playerWhite
       black: playerBlack
     }
-
     @board = setupBoard()
-
     @turn = Constants.TURN_WHITE
-
 
   # returns true iff the move is valid
   # if the move is valid, then also updates the board
@@ -127,8 +124,7 @@ class Chess
       else if fromRow == Constants.BOARD_SIZE - 1 &&
           fromCol == Constants.BOARD_SIZE - 1
         # rook on A8
-        @players.white.canCastle[Constants.KINGSIDE = false
-
+        @players.white.canCastle[Constants.KINGSIDE] = false
 
   # initialize the board
   setupBoard = ->

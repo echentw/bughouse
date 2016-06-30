@@ -4,9 +4,14 @@ class Player
   constructor: (id, clock) ->
     @id = id
     @clock = clock
-    @canCastle = {
-      Constants.KINGSIDE: true
-      Constants.QUEENSIDE: true
-    }
+    @canCastle = initCastlePrivileges()
+
+  # PRIVATE
+
+  initCastlePrivileges = ->
+    canCastle = {}
+    canCastle[Constants.KINGSIDE] = true
+    canCastle[Constants.QUEENSIDE] = true
+    return canCastle
 
 module.exports = Player

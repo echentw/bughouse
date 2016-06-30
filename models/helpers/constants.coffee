@@ -38,6 +38,6 @@ class Constants
 
   # sides of castling
   @KINGSIDE: 0
-  @QUEENSISDE: 1
+  @QUEENSIDE: 1
 
 module.exports = Constants
