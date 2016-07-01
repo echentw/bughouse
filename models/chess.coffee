@@ -21,7 +21,8 @@ class Chess
 
   # returns true iff the move is valid
   # if the move is valid, then also updates the board
-  move: (fromRow, fromCol, toRow, toCol) =>
+  move: (fromRow, fromCol, toRow, toCol, promotionChoice = null) =>
+    promoting = false
 
     # check that the piece color is correct
     if @turn == Constants.TURN_WHITE
@@ -36,6 +37,7 @@ class Chess
     switch @board[fromRow][fromCol]
       when Constants.W_PAWN, Constants.B_PAWN
         valid = Pawn.moveValid(@board, fromRow, fromCol, toRow, toCol)
+        promoting = isPromoting(Square.getStatus(board, fromRow, fromCol), toRow)
 
       when Constants.W_KNIGHT, Constants.B_KNIGHT
         valid = Knight.moveValid(@board, fromRow, fromCol, toRow, toCol)
@@ -63,7 +65,10 @@ class Chess
     if valid
 
       # move the piece
-      @board[toRow][toCol] = @board[fromRow][fromCol]
+      if promoting
+        @board[toRow][toCol] = promotionChoice
+      else
+        @board[toRow][toCol] = @board[fromRow][fromCol]
       @board[fromRow][fromCol] = Constants.NO_PIECE
 
       # switch control to the other player
@@ -75,6 +80,13 @@ class Chess
     return valid
 
   # PRIVATE
+
+  # assumes that the piece is a pawn
+  isPromoting(fromStatus, toRow)
+    if fromStatus == Constants.WHITE_PIECE
+      return (toRow == 0)
+    else
+      return (toRow == Constants.BOARD_SIZE - 1)
 
   # assumes that piece is a king
   checkValidCastle = (fromRow, fromCol, toRow, toCol) =>
