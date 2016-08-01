@@ -38,6 +38,9 @@ disconnect = ->
       message = session.username + ' left game ' + session.gameID
       io.sockets.in(session.gameID).emit('update', {message: message})
       console.log message
+
+      if game.empty()
+        database.delete(gameID)
   , 2000)
 
 hit = (data) ->
