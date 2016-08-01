@@ -8,25 +8,18 @@ join = (data) ->
   username = data.username
 
   if socket.handshake.session.gameID != gameID
-    socket.emit('error', {message: 'Authentication failed.'})
     return
 
   game = database.find(gameID)
   if !game
-    socket.emit('error', {message: 'The game does not exist.'})
-    return
-
-  success = game.addUser(username)
-  if !success
-    socket.emit('error', {message: 'Username already exists.'})
     return
 
   socket.join(gameID)
+  game.connectSocket(username)
 
   message = username + ' joined game ' + gameID
   io.sockets.in(gameID).emit('update', {message: message})
   console.log message
-
 
 disconnect = ->
   socket = this
@@ -36,16 +29,16 @@ disconnect = ->
   if !game
     return
 
-  game.removeUser(session.username)
-
-  message = session.username + ' left game ' + session.gameID
-  console.log game.empty()
-  if game.empty()
-    database.delete(session.gameID)
-  else
-    io.sockets.in(session.gameID).emit('update', {message: message})
-
-  console.log message
+  game.setTimeout(session.username)
+  setTimeout( ->
+    game = database.find(session.gameID)
+    if !game
+      return
+    if !game.findUser(session.username)
+      message = session.username + ' left game ' + session.gameID
+      io.sockets.in(session.gameID).emit('update', {message: message})
+      console.log message
+  , 2000)
 
 hit = (data) ->
   socket = this
@@ -53,7 +46,6 @@ hit = (data) ->
 
   if session.gameID != data.gameID ||
       session.username != data.username
-    socket.emit('error', {message: 'Authentication failed.'})
     return
 
   message = session.username + ' pinged game ' + session.gameID

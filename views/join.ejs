@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Game</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+  </head>
+  <body>
+    <h1>Create a username to join game <%= gameID %></h1>
+
+    <p id="message"><%= message %></p>
+
+    <form method="post" action="/game/<%= gameID %>/join">
+      Username: <input type="text" name="username"><br>
+      <input name="gameID" value="<%= gameID %>" hidden>
+      <input type="submit" value="Join Game">
+    </form>
+  </body>
+</html>

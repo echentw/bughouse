@@ -16,32 +16,14 @@ createGame = (req, res, next) ->
   req.session.gameID = gameID
   req.session.username = req.body['username']
 
+  # add the creator to list of users
+  game = database.find(gameID)
+  game.addUser(req.session.username)
+
   res.redirect('/game/' + gameID)
-
-# POST join a game
-joinGame = (req, res, next) ->
-  # validate the request
-  if !req.body['gameID'] || !req.body['username']
-    res.redirect('/')
-    return
-
-  # clear the current session
-  req.session.gameID = null
-  req.session.username = null
-
-  # check that the requested gameID exists
-  if !database.find(req.body['gameID'])
-    res.redirect('/')
-    return
-
-  req.session.gameID = req.body['gameID']
-  req.session.username = req.body['username']
-
-  res.redirect('/game/' + req.session.gameID)
 
 # Attach route handlers to the app
 module.exports.attach = (app, db) ->
   database = db
   app.get('/', home)
   app.post('/create', createGame)
-  app.post('/join', joinGame)
