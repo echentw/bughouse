@@ -18,6 +18,7 @@ class Chess
     }
     @board = setupBoard()
     @turn = Constants.TURN_WHITE
+    @previousMove = [null, null, null, null]
 
   # returns true iff the move is valid
   # if the move is valid, then also updates the board
@@ -36,7 +37,7 @@ class Chess
     valid = false
     switch @board[fromRow][fromCol]
       when Constants.W_PAWN, Constants.B_PAWN
-        valid = Pawn.moveValid(@board, fromRow, fromCol, toRow, toCol)
+        valid = Pawn.moveValid(@board, fromRow, fromCol, toRow, toCol, @previousMove)
         promoting = isPromoting(Square.getStatus(board, fromRow, fromCol), toRow)
 
       when Constants.W_KNIGHT, Constants.B_KNIGHT
@@ -55,14 +56,15 @@ class Chess
 
       when Constants.W_KING, Constants.B_KING
         valid = King.moveValid(@board, fromRow, fromCol, toRow, toCol)
-        if !valid
-          if checkValidCastle(fromRow, fromCol, toRow, toCol)
-            valid = true
         if valid
           updateCastlingPrivilege(fromRow, fromCol)
+        else
+          if checkValidCastle(fromRow, fromCol, toRow, toCol)
+            valid = true
 
     # if the move is valid
     if valid
+      @previousMove = [fromRow, fromCol, toRow, toCol]
 
       # move the piece
       if promoting
