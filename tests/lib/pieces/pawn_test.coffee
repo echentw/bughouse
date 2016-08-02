@@ -148,3 +148,18 @@ describe 'Pawn', ->
             Pawn.moveValid(
               board, bRow, bCol, row, col, prevMove
             ).should.equal false
+
+    describe 'en passant', ->
+      wRow = 3
+      wCol = 4
+
+      bRow = wRow
+      bCol = wCol - 1
+
+      beforeEach ->
+        board[wRow][wCol] = Constants.W_PAWN
+        board[bRow][bCol] = Constants.B_PAWN
+        previousMove = [bRow - 2, bCol, bRow, bCol]
+
+      it 'can en passant', ->
+        Pawn.moveValid(board, wRow, wCol, bRow - 1, bCol, prevMove).should == true
