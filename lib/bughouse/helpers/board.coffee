@@ -1,12 +1,12 @@
-Constants = require('./helpers/constants')
-Square = require('./helpers/square')
+Constants = require('./constants')
+Square = require('./square')
 
-Pawn = require('./pieces/pawn')
-Knight = require('./pieces/knight')
-Bishop = require('./pieces/bishop')
-Rook = require('./pieces/rook')
-Queen = require('./pieces/queen')
-King = require('./pieces/king')
+Pawn = require('../pieces/pawn')
+Knight = require('../pieces/knight')
+Bishop = require('../pieces/bishop')
+Rook = require('../pieces/rook')
+Queen = require('../pieces/queen')
+King = require('../pieces/king')
 
 class Board
   constructor: ->
@@ -34,7 +34,7 @@ class Board
   # @param {Number} row
   # @param {Number} col
   # @param {Number} piece The identity of the piece.
-  set: (row, col, piece)
+  set: (row, col, piece) ->
     @board[row][col] = piece
 
   # initialize the board
@@ -57,3 +57,7 @@ class Board
       Constants.W_QUEEN, Constants.W_KING,
       Constants.W_BISHOP, Constants.W_KNIGHT, Constants.W_ROOK
     ])
+
+    return board
+
+module.exports = Board

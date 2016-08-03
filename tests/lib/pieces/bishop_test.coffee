@@ -1,46 +1,44 @@
 chai = require('chai')
 chai.should()
 
+Move = require('../../../lib/bughouse/helpers/move')
+Board = require('../../../lib/bughouse/helpers/board')
 Constants = require('../../../lib/bughouse/helpers/constants')
 Square = require('../../../lib/bughouse/helpers/square')
+
 Bishop = require('../../../lib/bughouse/pieces/bishop')
 
 describe 'Bishop', ->
   describe 'moveValid()', ->
-    board = null
+    board = new Board()
 
     row = 4
     col = 3
 
-    beforeEach ->
-      board = ((Constants.NO_PIECE for i in [0 ... Constants.BOARD_SIZE]) \
-                                   for j in [0 ... Constants.BOARD_SIZE])
+    prevMove = new Move(-1, -1, -1, -1)
 
-      board[row][col] = Constants.W_BISHOP
+    beforeEach ->
+      for i in [0...Constants.BOARD_SIZE]
+        for j in [0...Constants.BOARD_SIZE]
+          board.set(i, j, Constants.NO_PIECE)
+
+      board.set(row, col, Constants.W_BISHOP)
 
     it 'can move to a valid square', ->
-      toRow = row + 2
-      toCol = col - 2
-      Bishop.moveValid(board, row, col, toRow, toCol).should.equal true
+      move = new Move(row, col, row + 2, col - 2)
+      Bishop.moveValid(board, move, prevMove).should.equal true
 
     it 'can capture an enemy piece', ->
-      toRow = row - 3
-      toCol = col + 3
-      board[toRow][toCol] = Constants.B_PAWN
-      Bishop.moveValid(board, row, col, toRow, toCol).should.equal true
+      move = new Move(row, col, row - 3, col + 3)
+      board.set(row - 3, col + 3, Constants.B_PAWN)
+      Bishop.moveValid(board, move, prevMove).should.equal true
 
     it 'cannot move to a square occupied by a friendly piece', ->
-      toRow = row - 3
-      toCol = col - 3
-      board[toRow][toCol] = Constants.W_QUEEN
-      Bishop.moveValid(board, row, col, toRow, toCol).should.equal false
+      move = new Move(row, col, row - 3, col + 3)
+      board.set(row - 3, col + 3, Constants.W_QUEEN)
+      Bishop.moveValid(board, move, prevMove).should.equal false
 
     it 'cannot move to a square if something is in the middle', ->
-      toRow = row + 3
-      toCol = col + 3
-
-      midRow = row + 2
-      midCol = col + 2
-
-      board[midRow][midCol] = Constants.B_KNIGHT
-      Bishop.moveValid(board, row, col, toRow, toCol).should.equal false
+      move = new Move(row, col, row + 3, col + 3)
+      board.set(row + 2, col + 2, Constants.B_KNIGHT)
+      Bishop.moveValid(board, move, prevMove).should.equal false
