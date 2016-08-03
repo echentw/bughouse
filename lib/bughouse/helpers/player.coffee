@@ -1,4 +1,4 @@
-Constants = require('./helpers/constants')
+Constants = require('./constants')
 
 class Player
   constructor: (id, clock) ->

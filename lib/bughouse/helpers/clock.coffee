@@ -1,5 +1,4 @@
 class Clock
-
   constructor: (seconds, done) ->
     # time is stored in milliseconds
     @remainingTime = seconds * 1000

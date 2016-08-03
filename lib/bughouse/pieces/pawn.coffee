@@ -1,11 +1,17 @@
+Piece = require('./piece')
 Constants = require('../helpers/constants')
 Square = require('../helpers/square')
 
-class Pawn
+class Pawn extends Piece
   constructor: ->
 
-  # assumes that the squares respect the board boundaries
-  @moveValid: (board, fromRow, fromCol, toRow, toCol, previousMove) ->
+  @moveValid: (board, move, prevMove) ->
+    # unpack the move
+    fromRow = move.fromRow
+    fromCol = move.fromCol
+    toRow = move.toRow
+    toCol = move.toCol
+
     fromStatus = Square.getStatus(board, fromRow, fromCol)
     toStatus = Square.getStatus(board, toRow, toCol)
 
@@ -43,19 +49,15 @@ class Pawn
 
       # check that the piece to be captured is an enemy pawn
       if fromStatus == Constants.WHITE_PIECE
-        if board[fromRow][toCol] != Constants.B_PAWN
+        if board.get(fromRow, toCol) != Constants.B_PAWN
           return false
       else
-        if board[fromRow][toCol] != Constants.W_PAWN
+        if board.get(fromRow, toCol) != Constants.W_PAWN
           return false
 
       # check that the previous move was a pawn push
-      previousFromRow = previousMove[0]
-      previousFromCol = previousMove[1]
-      previousToRow = previousMove[2]
-      previousToCol = previousMove[3]
-      if previousToCol != previousFromCol ||
-          previousToRow != previousFromRow - 2 * direction
+      if prevMove.toCol != prevMove.fromCol ||
+          prevMove.toRow != prevMove.fromRow - 2 * direction
         return false
 
       # make sure that the to-square is clear

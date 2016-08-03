@@ -1,17 +1,16 @@
 Constants = require('../helpers/constants')
 Square = require('../helpers/square')
 
+Piece = require('./piece')
 Bishop = require('./bishop')
 Rook = require('./rook')
 
-class Queen
+class Queen extends Piece
   constructor: ->
 
-  # assumes that the squares respect the board boundaries
-  @moveValid: (board, fromRow, fromCol, toRow, toCol) ->
-
+  @moveValid: (board, move, prevMove) ->
     # a queen behaves like a bishop or a rook on a given turn
-    return Bishop.moveValid(board, fromRow, fromCol, toRow, toCol) ||
-      Rook.moveValid(board, fromRow, fromCol, toRow, toCol)
+    return Bishop.moveValid(board, move, prevMove) ||
+        Rook.moveValid(board, move, prevMove)
 
 module.exports = Queen

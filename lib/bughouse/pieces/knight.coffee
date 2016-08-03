@@ -1,16 +1,23 @@
 _ = require('lodash')
 
-Constants = require('../helpers/constants')
+Piece = require('./piece')
 Square = require('../helpers/square')
 
-class Knight
-  VALID_MOVES = [[1, 2], [1, -2], [-1, 2], [-1, -2],
-                 [2, 1], [2, -1], [-2, 1], [-2, -1]]
+class Knight extends Piece
+  VALID_TO_SQUARES = [
+    [1, 2], [1, -2], [-1, 2], [-1, -2],
+    [2, 1], [2, -1], [-2, 1], [-2, -1]
+  ]
 
   constructor: ->
 
-  # assumes that the squares respect the board boundaries
-  @moveValid: (board, fromRow, fromCol, toRow, toCol) ->
+  @moveValid: (board, move, prevMove) ->
+    # unpack the move
+    fromRow = move.fromRow
+    fromCol = move.fromCol
+    toRow = move.toRow
+    toCol = move.toCol
+
     fromStatus = Square.getStatus(board, fromRow, fromCol)
     toStatus = Square.getStatus(board, toRow, toCol)
 
@@ -21,7 +28,7 @@ class Knight
     # check if the move makes the L-shape
     diffRow = toRow - fromRow
     diffCol = toCol - fromCol
-    index = _.findIndex(VALID_MOVES, (move) ->
+    index = _.findIndex(VALID_TO_SQUARES, (move) ->
       move[0] == diffRow && move[1] == diffCol
     )
 

@@ -1,11 +1,17 @@
+Piece = require('./piece')
 Constants = require('../helpers/constants')
 Square = require('../helpers/square')
 
-class Rook
+class Rook extends Piece
   constructor: ->
 
-  # assumes that the squares respect the board boundaries
-  @moveValid: (board, fromRow, fromCol, toRow, toCol) ->
+  @moveValid: (board, move, prevMove) ->
+    # unpack the move
+    fromRow = move.fromRow
+    fromCol = move.fromCol
+    toRow = move.toRow
+    toCol = move.toCol
+
     fromStatus = Square.getStatus(board, fromRow, fromCol)
     toStatus = Square.getStatus(board, toRow, toCol)
 
