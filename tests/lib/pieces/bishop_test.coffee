@@ -11,17 +11,13 @@ Bishop = require('../../../lib/bughouse/pieces/bishop')
 describe 'Bishop', ->
   describe 'moveValid()', ->
     board = new Board()
+    prevMove = new Move(-1, -1, -1, -1)
 
     row = 4
     col = 3
 
-    prevMove = new Move(-1, -1, -1, -1)
-
     beforeEach ->
-      for i in [0...Constants.BOARD_SIZE]
-        for j in [0...Constants.BOARD_SIZE]
-          board.set(i, j, Constants.NO_PIECE)
-
+      board.clear()
       board.set(row, col, Constants.W_BISHOP)
 
     it 'can move to a valid square', ->

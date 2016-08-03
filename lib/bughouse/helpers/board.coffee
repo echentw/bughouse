@@ -37,6 +37,11 @@ class Board
   set: (row, col, piece) ->
     @board[row][col] = piece
 
+  clear: ->
+    for row in [0...Constants.BOARD_SIZE]
+      for col in [0...Constants.BOARD_SIZE]
+        @board[row][col] = Constants.NO_PIECE
+
   # initialize the board
   setupBoard = ->
     board = []
