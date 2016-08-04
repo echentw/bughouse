@@ -5,6 +5,7 @@ Board = require('../../../lib/bughouse/helpers/board')
 Move = require('../../../lib/bughouse/helpers/move')
 Constants = require('../../../lib/bughouse/helpers/constants')
 Square = require('../../../lib/bughouse/helpers/square')
+
 Pawn = require('../../../lib/bughouse/pieces/pawn')
 
 describe 'Pawn', ->
