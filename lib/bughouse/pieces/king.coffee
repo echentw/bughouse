@@ -14,6 +14,8 @@ class King extends Piece
   constructor: ->
 
   @moveValid: (board, move, prevMove) ->
+    super(board, move, prevMove)
+
     # unpack the move
     fromRow = move.fromRow
     fromCol = move.fromCol
