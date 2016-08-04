@@ -3,57 +3,59 @@ chai.should()
 
 _ = require('lodash')
 
+Board = require('../../../lib/bughouse/helpers/board')
+Move = require('../../../lib/bughouse/helpers/move')
 Constants = require('../../../lib/bughouse/helpers/constants')
 Square = require('../../../lib/bughouse/helpers/square')
+
 Knight = require('../../../lib/bughouse/pieces/knight')
 
 describe 'Knight', ->
   describe 'moveValid()', ->
-    board = null
+    board = new Board()
+    prevMove = new Move(-1, -1, -1, -1)
 
     row = 4
     col = 4
 
-    validMoves = [[1, 2], [1, -2], [-1, 2], [-1, -2],
-                  [2, 1], [2, -1], [-2, 1], [-2, -1]]
+    validMoves = [
+      [1, 2], [1, -2], [-1, 2], [-1, -2],
+      [2, 1], [2, -1], [-2, 1], [-2, -1]
+    ]
 
     captureIndices = [2, 4]
     friendlyIndices = [3, 6]
 
     beforeEach ->
-      board = ((Constants.NO_PIECE for i in [0 ... Constants.BOARD_SIZE]) \
-                                   for j in [0 ... Constants.BOARD_SIZE])
+      board.clear()
 
     describe 'valid potential moves', ->
       beforeEach ->
-        board[row][col] = Constants.W_KNIGHT
+        board.set(row, col, Constants.W_KNIGHT)
         for i in captureIndices
-          board[row + validMoves[i][0]][col + validMoves[i][1]] =
-            Constants.B_PAWN
+          board.set(row + validMoves[i][0], col + validMoves[i][1], Constants.B_PAWN)
         for i in friendlyIndices
-          board[row + validMoves[i][0]][col + validMoves[i][1]] =
-            Constants.W_PAWN
+          board.set(row + validMoves[i][0], col + validMoves[i][1], Constants.W_PAWN)
 
       it 'can move to any nonfriendly square', ->
-        for move, i in validMoves
+        for validMove, i in validMoves
           if _.indexOf(friendlyIndices, i) == -1
-            Knight.moveValid(board, row, col, row + move[0], col + move[1])
-              .should.equal true
+            move = new Move(row, col, row + validMove[0], col + validMove[1])
+            Knight.moveValid(board, move, prevMove).should.equal true
 
       it 'cannot move to any square with a piece of the same color', ->
-        for move, i in validMoves
+        for validMove, i in validMoves
           if _.indexOf(friendlyIndices, i) != -1
-            Knight.moveValid(board, row, col, row + move[0], col + move[1])
-              .should.equal false
+            move = new Move(row, col, row + validMove[0], col + validMove[1])
+            Knight.moveValid(board, move, prevMove).should.equal false
 
-
+    describe 'invalid potential moves', ->
       it 'cannot move to any invalid square', ->
         for r in [0 ... Constants.BOARD_SIZE]
           for c in [0 ... Constants.BOARD_SIZE]
-            diffRow = r - row
-            diffCol = c - col
-            index = _.findIndex(validMoves, (move) ->
-              move[0] == diffRow && move[1] == diffCol
+            move = new Move(row, col, r, c)
+            index = _.findIndex(validMoves, (validMove) ->
+              (validMove[0] == r - row) && (validMove[1] == c - col)
             )
             if index == -1
-              Knight.moveValid(board, row, col, r, c).should.equal false
+              Knight.moveValid(board, move, prevMove).should.equal false
