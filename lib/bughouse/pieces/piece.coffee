@@ -9,17 +9,28 @@ class Piece
   # Returns true iff the move is valid.
   # Assumes that the moves respect the board boundaries.
   #
-  # This parent method only checks that if a piece is dropped on the board,
-  # then that square must be empty.
-  #
   # @param {Board} board
   # @param {Move} move The current move.
   # @param {Move} prevMove The move that was mad the turn before.
   # @return {Boolean}
   @moveValid: (board, move, prevMove) ->
-    if move.fromRow == -1
-      return Square.getStatus(board, move.toRow, move.toCol) ==
-          Constants.NO_PIECE
-    return true
+    throw new Error('Subclasses must implement this method.')
+
+  # Returns true iff the drop move is valid.
+  # Assumes that the move is a drop move.
+  #
+  # @param {Board} board
+  # @param {Move} move
+  # @return {Boolean}
+  @dropValid: (board, move) ->
+    return Square.getStatus(board, move.toRow, move.toCol) ==
+        Constants.NO_PIECE
+
+  # Returns true iff the move is a drop move.
+  #
+  # @param {Move} move
+  # @return {Boolean}
+  @isDrop: (move) ->
+    return move.fromRow == -1
 
 module.exports = Piece

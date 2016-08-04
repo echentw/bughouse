@@ -8,8 +8,13 @@ Square = require('../../../lib/bughouse/helpers/square')
 
 Pawn = require('../../../lib/bughouse/pieces/pawn')
 
+PieceTest = require('./piece_test')
+
 describe 'Pawn', ->
   describe 'moveValid()', ->
+    describe 'shared behavior', ->
+      PieceTest.shouldBehaveLikeAPiece(Pawn)
+
     board = new Board()
     prevMove = new Move(-1, -1, -1, -1)
 

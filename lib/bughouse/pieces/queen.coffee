@@ -9,7 +9,8 @@ class Queen extends Piece
   constructor: ->
 
   @moveValid: (board, move, prevMove) ->
-    super(board, move, prevMove)
+    if @isDrop(move)
+      return @dropValid(board, move)
 
     # a queen behaves like a bishop or a rook on a given turn
     return Bishop.moveValid(board, move, prevMove) ||

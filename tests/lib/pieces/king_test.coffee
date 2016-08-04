@@ -10,8 +10,13 @@ Square = require('../../../lib/bughouse/helpers/square')
 
 King = require('../../../lib/bughouse/pieces/king')
 
+PieceTest = require('./piece_test')
+
 describe 'King', ->
   describe 'moveValid()', ->
+    describe 'shared behavior', ->
+      PieceTest.shouldBehaveLikeAPiece(King)
+
     board = new Board()
     prevMove = new Move(-1, -1, -1, -1)
 

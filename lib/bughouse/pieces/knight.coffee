@@ -12,7 +12,8 @@ class Knight extends Piece
   constructor: ->
 
   @moveValid: (board, move, prevMove) ->
-    super(board, move, prevMove)
+    if @isDrop(move)
+      return @dropValid(board, move)
 
     # unpack the move
     fromRow = move.fromRow
