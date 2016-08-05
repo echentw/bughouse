@@ -5,6 +5,7 @@ Constants = require('../helpers/constants')
 Square = require('../helpers/square')
 
 class King extends Piece
+
   VALID_TO_SQUARES = [
     [-1, -1], [-1, 0], [-1, 1],
     [0, -1], [0, 1],

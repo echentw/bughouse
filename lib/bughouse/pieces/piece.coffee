@@ -4,6 +4,7 @@ Constants = require('../helpers/constants')
 Square = require('../helpers/square')
 
 class Piece
+
   constructor: ->
 
   # Returns true iff the move is valid.
@@ -11,7 +12,7 @@ class Piece
   #
   # @param {Board} board
   # @param {Move} move The current move.
-  # @param {Move} prevMove The move that was mad the turn before.
+  # @param {Move} prevMove The move that was made the previous turn.
   # @return {Boolean}
   @moveValid: (board, move, prevMove) ->
     throw new Error('Subclasses must implement this method.')

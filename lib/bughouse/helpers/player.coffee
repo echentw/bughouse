@@ -24,6 +24,9 @@ class Player
       Constants.W_KING: 0
     }
 
+  # Sets whether the player can castle after the move.
+  #
+  # @param {Move} move
   updateCastlePrivilege: (move) =>
     fromRow = move.fromRow
     fromCol = move.fromCol
@@ -35,6 +38,9 @@ class Player
       if fromRow == 0
         updateCastleHelper(move.fromCol)
 
+  # Helper method for updateCastlePrivilege.
+  #
+  # @param {Number} col The column that the piece is being moved from.
   updateCastleHelper: (col) =>
     if col == 4
       @canCastle[Constants.QUEENSIDE] = false

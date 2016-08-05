@@ -3,6 +3,7 @@ Constants = require('../helpers/constants')
 Square = require('../helpers/square')
 
 class Rook extends Piece
+
   constructor: ->
 
   @moveValid: (board, move, prevMove) ->

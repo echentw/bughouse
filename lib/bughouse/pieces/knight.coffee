@@ -4,6 +4,7 @@ Piece = require('./piece')
 Square = require('../helpers/square')
 
 class Knight extends Piece
+
   VALID_TO_SQUARES = [
     [1, 2], [1, -2], [-1, 2], [-1, -2],
     [2, 1], [2, -1], [-2, 1], [-2, -1]

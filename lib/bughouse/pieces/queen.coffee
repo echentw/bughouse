@@ -6,6 +6,7 @@ Bishop = require('./bishop')
 Rook = require('./rook')
 
 class Queen extends Piece
+
   constructor: ->
 
   @moveValid: (board, move, prevMove) ->

@@ -3,6 +3,7 @@ Constants = require('../helpers/constants')
 Square = require('../helpers/square')
 
 class Pawn extends Piece
+
   constructor: ->
 
   @moveValid: (board, move, prevMove) ->

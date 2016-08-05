@@ -21,6 +21,7 @@ class Chess
     @board = new Board()
     @turn = Constants.TURN_WHITE
     @previousMove = new Move(-1, -1, -1, -1)
+    @winner = null
 
   # Returns true iff the move is valid.
   # If the move is valid, then also updates the board.
@@ -30,6 +31,9 @@ class Chess
   #   the end of the board. Only applicable if the moving piece is a pawn.
   # @return {Boolean}
   move: (move, promotionChoice = null) =>
+    if @winner != null
+      return false
+
     moveType = Constants.NORMAL_MOVE
 
     # check that the piece color is correct
@@ -64,11 +68,19 @@ class Chess
 
       when Constants.W_KING, Constants.B_KING
         valid = King.moveValid(@board, move, @prevMove)
-        if !valid && checkValidCastle(move)
+        if !valid && isCastling(move)
           moveType = Constants.CASTLING_MOVE
           valid = true
 
     if valid
+      # the game is over if a king is captured
+      toStatus = @board.get(move.toRow, move.toCol)
+      if toStatus == Constants.W_KING
+        @winner = @playerBlack
+      else if toStatus == Constants.B_KING
+        @winner = @playerWhite
+
+      # perform the move
       @prevMove = move
       @board.move(move, moveType, promotionChoice)
 
@@ -131,7 +143,7 @@ class Chess
   #
   # @param {move} move
   # @return {Boolean}
-  checkValidCastle = (move) =>
+  isCastling = (move) =>
     piece = @board.get(fromRow, fromCol)
 
     if piece == Constants.W_KING
