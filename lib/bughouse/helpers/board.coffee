@@ -9,6 +9,7 @@ Queen = require('../pieces/queen')
 King = require('../pieces/king')
 
 class Board
+
   constructor: ->
     @board = setupBoard()
 
@@ -22,12 +23,26 @@ class Board
     return @board[row][col]
 
   # Performs the move on the board.
-  # Does no checks.
+  # Assumes that the move is valid.
   #
   # @param {Move} move
-  move: (move) ->
+  # @param {Number} moveType The type of the move.
+  # @param {Number} promotionChoice
+  move: (move, moveType, promotionChoice = null) ->
     @board[move.toRow][move.toCol] = @board[move.fromRow][move.fromCol]
     @board[move.fromRow][move.fromCol] = Constants.NO_PIECE
+
+    if moveType == Constants.PROMOTING_MOVE
+      @board[move.toRow][move.toCol] = promotionChoice
+
+    else if moveType == Constants.CASTLING_MOVE
+      direction = (move.fromCol - move.toCol) / 2
+      rookCol = 0 if direction < 0 else Constants.BOARD_SIZE - 1
+      @board[move.toRow][move.toCol - direction] = @board[move.toRow][rookCol]
+      @board[move.toRow][move.rookCol] = Constants.NO_PIECE
+
+    else if moveType == Constants.EN_PASSANT_MOVE
+      @board[move.fromRow][move.toCol] = Constants.NO_PIECE
 
   # Sets a piece on the board.
   #

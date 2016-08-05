@@ -12,6 +12,7 @@ Queen = require('./pieces/queen')
 King = require('./pieces/king')
 
 class Chess
+
   # @param {Player} playerWhite
   # @param {Player} playerBlack
   constructor: (playerWhite, playerBlack) ->
@@ -29,7 +30,7 @@ class Chess
   #   the end of the board. Only applicable if the moving piece is a pawn.
   # @return {Boolean}
   move: (move, promotionChoice = null) =>
-    promoting = false
+    moveType = Constants.NORMAL_MOVE
 
     # check that the piece color is correct
     if @turn == Constants.TURN_WHITE
@@ -43,11 +44,11 @@ class Chess
     valid = false
     switch @board.get(move.fromRow, move.fromCol)
       when Constants.W_PAWN, Constants.B_PAWN
-        valid = Pawn.moveValid(@board, move, @prevMove, @previousMove)
-        promoting = isPromoting(
-          Square.getStatus(board, move.fromRow, move.fromCol),
-          toRow
-        )
+        valid = Pawn.moveValid(@board, move, @prevMove)
+        if isPromoting(move)
+          moveType = Constants.PROMOTING_MOVE
+        else if isEnPassant(move)
+          moveType = Constants.EN_PASSANT_MOVE
 
       when Constants.W_KNIGHT, Constants.B_KNIGHT
         valid = Knight.moveValid(@board, move, @prevMove)
@@ -57,49 +58,81 @@ class Chess
 
       when Constants.W_ROOK, Constants.B_ROOK
         valid = Rook.moveValid(@board, move, @prevMove)
-        if valid
-          updateCastlingPrivilege(move)
 
       when Constants.W_QUEEN, Constants.B_QUEEN
         valid = Queen.moveValid(@board, move, @prevMove)
 
       when Constants.W_KING, Constants.B_KING
         valid = King.moveValid(@board, move, @prevMove)
-        if valid
-          updateCastlingPrivilege(move)
-        else
-          if checkValidCastle(move, @prevMove)
-            valid = true
+        if !valid && checkValidCastle(move)
+          moveType = Constants.CASTLING_MOVE
+          valid = true
 
-    # if the move is valid
     if valid
       @prevMove = move
+      @board.move(move, moveType, promotionChoice)
 
-      # move the piece
-      @board.move(move)
-      if promoting
-        @board.set(move.toRow, move.toCol) = promotionChoice
-
-      # switch control to the other player
+      # update castle privilege and switch control to other player
       if @turn == Constants.TURN_WHITE
+        @playerWhite.updateCastlePrivilege(move)
         @turn = Constants.TURN_BLACK
       else
-        @turn = Constnats.TURN_WHITE
+        @playerBlack.updateCastlePrivilege(move)
+        @turn = Constants.TURN_BLACK
 
     return valid
 
-  # PRIVATE
+  # PRIVATE METHODS
 
-  # assumes that the piece is a pawn
-  isPromoting = (fromStatus, toRow) =>
+  # Returns true iff the piece lands on the back rank.
+  # Assumes that the piece is a pawn, and that the move is valid.
+  #
+  # @param {Move} move
+  # @return {Boolean}
+  isPromoting = (move) =>
+    fromStatus = Square.getStatus(@board, move.fromRow, move.fromCol)
     if fromStatus == Constants.WHITE_PIECE
-      return (toRow == 0)
+      return (move.toRow == 0)
     else
-      return (toRow == Constants.BOARD_SIZE - 1)
+      return (move.toRow == Constants.BOARD_SIZE - 1)
 
-  # assumes that piece is a king
-  checkValidCastle = (move, @prevMove) =>
-    piece = @board[fromRow][fromCol]
+  # Returns true iff the move is a valid en passant.
+  # Assumes that the piece is a pawn.
+  #
+  # @param {Move} move
+  # @return {Boolean}
+  isEnPassant = (move) =>
+    # validate enemy piece
+    if Square.getStatus(board, move.toRow, move.toCol) != Constants.NO_PIECE
+      return false
+
+    enemyPiece = @board.get(move.fromRow, move.toCol)
+    if @turn == Constants.TURN_WHITE
+      if enemyPiece != Constants.B_PAWN
+        return false
+    else
+      if enemyPiece != Constants.W_PAWN
+        return false
+
+    direction = -1 if @turn == Constants.TURN_WHITE else 1
+    if @prevMove.toRow != @prevMove.fromRow - 2 * direction
+      return false
+
+    # validate the pawn doing the capture
+    if move.toRow != move.fromRow + direction
+      return false
+    if Math.abs(move.toCol - move.fromCol) != 1
+      return false
+
+    return true
+
+  # Returns true iff the move is a valid castle.
+  # Assumes that piece is a king.
+  #
+  # @param {move} move
+  # @return {Boolean}
+  checkValidCastle = (move) =>
+    piece = @board.get(fromRow, fromCol)
 
     if piece == Constants.W_KING
       player = @players.white
@@ -123,31 +156,5 @@ class Chess
       return false
 
     return true
-
-  updateCastlingPrivilege = (move) =>
-    fromRow = move.fromRow
-    fromCol = move.fromCol
-
-    piece = @board.get(fromRow, fromCol)
-    if piece == Constants.W_KING
-      @playerWhite.canCastle[Constants.KINGSIDE] = false
-      @playerWhite.canCastle[Constants.QUEENSIDE] = false
-    else if piece == Constants.B_KING
-      @playerBlack.canCastle[Constants.KINGSIDE] = false
-      @playerBlack.canCastle[Constants.QUEENSIDE] = false
-    else
-      if fromRow == 0 && fromCol == 0
-        # rook on A8
-        @playerBlack.canCastle[Constants.QUEENSIDE] = false
-      else if fromRow == 0 && fromCol == Constants.BOARD_SIZE - 1
-        # rook on H8
-        @playerBlack.canCastle[Constants.KINGSIDE] = false
-      else if fromRow == Constants.BOARD_SIZE - 1 && fromCol == 0
-        # rook on A1
-        @playerWhite.canCastle[Constants.QUEENSIDE] = false
-      else if fromRow == Constants.BOARD_SIZE - 1 &&
-          fromCol == Constants.BOARD_SIZE - 1
-        # rook on A8
-        @playerWhite.canCastle[Constants.KINGSIDE] = false
 
 module.exports = Chess
