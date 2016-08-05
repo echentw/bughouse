@@ -37,7 +37,7 @@ class Board
 
     else if moveType == Constants.CASTLING_MOVE
       direction = (move.fromCol - move.toCol) / 2
-      rookCol = 0 if direction < 0 else Constants.BOARD_SIZE - 1
+      rookCol = if (direction < 0) then 0 else Constants.BOARD_SIZE - 1
       @board[move.toRow][move.toCol - direction] = @board[move.toRow][rookCol]
       @board[move.toRow][move.rookCol] = Constants.NO_PIECE
 

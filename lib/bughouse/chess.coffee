@@ -114,7 +114,7 @@ class Chess
       if enemyPiece != Constants.W_PAWN
         return false
 
-    direction = -1 if @turn == Constants.TURN_WHITE else 1
+    direction = if (@turn == Constants.TURN_WHITE) then -1 else 1
     if @prevMove.toRow != @prevMove.fromRow - 2 * direction
       return false
 
