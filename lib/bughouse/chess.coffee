@@ -1,6 +1,7 @@
 _ = require('lodash')
 
 Constants = require('./helpers/constants')
+Move = require('./helpers/move')
 Square = require('./helpers/square')
 Board = require('./helpers/board')
 

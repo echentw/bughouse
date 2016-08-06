@@ -9,19 +9,18 @@ class Player
   constructor: (teamID, color) ->
     @teamID = teamID
     @color = color
-    @canCastle = {
-      Constants.KINGSIDE: true,
-      Constants.QUEENSIDE: true
-    }
+
+    @canCastle = {}
+    @canCastle[Constants.KINGSIDE] = true
+    @canCastle[Constants.QUEENSIDE] = true
 
     # uses white pieces to represent all the pieces
-    @reservePieces = {
-      Constants.PAWN: 0,
-      Constants.KNIGHT: 0,
-      Constants.BISHOP: 0,
-      Constants.ROOK: 0,
-      Constants.QUEEN: 0
-    }
+    @reservePieces = {}
+    @reservePieces[Constants.PAWN] = 0
+    @reservePieces[Constants.KNIGHT] = 0
+    @reservePieces[Constants.BISHOP] = 0
+    @reservePieces[Constants.ROOK] = 0
+    @reservePieces[Constants.QUEEN] = 0
 
   # Remove a piece from the serve.
   # Returns true iff operation was successful.
