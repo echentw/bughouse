@@ -16,13 +16,30 @@ class Player
 
     # uses white pieces to represent all the pieces
     @reservePieces = {
-      Constants.W_PAWN: 0,
-      Constants.W_KNIGHT: 0,
-      Constants.W_BISHOP: 0,
-      Constants.W_ROOK: 0,
-      Constants.W_QUEEN: 0,
-      Constants.W_KING: 0
+      Constants.PAWN: 0,
+      Constants.KNIGHT: 0,
+      Constants.BISHOP: 0,
+      Constants.ROOK: 0,
+      Constants.QUEEN: 0,
+      Constants.KING: 0
     }
+
+  # Remove a piece from the serve.
+  # Returns true iff operation was successful.
+  #
+  # @param {Number} piece
+  # @return {Boolean}
+  useReserve: (piece) =>
+    if @reservePieces[piece] < 1
+      return false
+    @reservePieces[piece] -= 1
+    return true
+
+  # Add a piece to the reserve.
+  #
+  # @param {Number} piece
+  addReserve: (piece) =>
+    @reservePieces[piece] += 1
 
   # Sets whether the player can castle after the move.
   #
