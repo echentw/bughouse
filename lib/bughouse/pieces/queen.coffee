@@ -7,8 +7,6 @@ Rook = require('./rook')
 
 class Queen extends Piece
 
-  constructor: ->
-
   @moveValid: (board, move, prevMove) ->
     if @isDrop(move)
       return @dropValid(board, move)

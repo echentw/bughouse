@@ -18,7 +18,7 @@ describe 'Knight', ->
       PieceTest.shouldBehaveLikeAPiece(Knight)
 
     board = new Board()
-    prevMove = new Move(-1, -1, -1, -1)
+    prevMove = new Move(Constants.NO_PIECE, -1, -1, -1, -1)
 
     row = 4
     col = 4
@@ -43,24 +43,28 @@ describe 'Knight', ->
           board.set(row + validMoves[i][0], col + validMoves[i][1], Constants.W_PAWN)
 
       it 'can move to any nonfriendly square', ->
-        for validMove, i in validMoves
+        for vMove, i in validMoves
           if _.indexOf(friendlyIndices, i) == -1
-            move = new Move(row, col, row + validMove[0], col + validMove[1])
+            move = new Move(
+              Constants.W_KNIGHT, row, col, row + vMove[0], col + vMove[1]
+            )
             Knight.moveValid(board, move, prevMove).should.equal true
 
       it 'cannot move to any square with a piece of the same color', ->
-        for validMove, i in validMoves
+        for vMove, i in validMoves
           if _.indexOf(friendlyIndices, i) != -1
-            move = new Move(row, col, row + validMove[0], col + validMove[1])
+            move = new Move(
+              Constants.W_KNIGHT, row, col, row + vMove[0], col + vMove[1]
+            )
             Knight.moveValid(board, move, prevMove).should.equal false
 
     describe 'invalid potential moves', ->
       it 'cannot move to any invalid square', ->
         for r in [0 ... Constants.BOARD_SIZE]
           for c in [0 ... Constants.BOARD_SIZE]
-            move = new Move(row, col, r, c)
-            index = _.findIndex(validMoves, (validMove) ->
-              (validMove[0] == r - row) && (validMove[1] == c - col)
+            move = new Move(Constants.W_KNIGHT, row, col, r, c)
+            index = _.findIndex(validMoves, (vMove) ->
+              (vMove[0] == r - row) && (vMove[1] == c - col)
             )
             if index == -1
               Knight.moveValid(board, move, prevMove).should.equal false

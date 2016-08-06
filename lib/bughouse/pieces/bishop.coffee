@@ -3,7 +3,6 @@ Constants = require('../helpers/constants')
 Square = require('../helpers/square')
 
 class Bishop extends Piece
-  constructor: ->
 
   @moveValid: (board, move, prevMove) ->
     if @isDrop(move)

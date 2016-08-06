@@ -10,8 +10,6 @@ class Knight extends Piece
     [2, 1], [2, -1], [-2, 1], [-2, -1]
   ]
 
-  constructor: ->
-
   @moveValid: (board, move, prevMove) ->
     if @isDrop(move)
       return @dropValid(board, move)

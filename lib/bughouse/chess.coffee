@@ -19,9 +19,11 @@ class Chess
     @playerWhite = playerWhite
     @playerBlack = playerBlack
     @board = new Board()
+    @winner = null
+
     @turn = Constants.TURN_WHITE
     @previousMove = new Move(-1, -1, -1, -1)
-    @winner = null
+    @pieceTaken = Constants.NO_PIECE
 
   # Returns true iff the move is valid.
   # If the move is valid, then also updates the board.
@@ -33,6 +35,10 @@ class Chess
   move: (move, promotionChoice = null) =>
     if @winner != null
       return false
+
+    if move.fromRow != -1
+      if move.piece != @board.get(move.fromRow, move.fromCol)
+        return false
 
     moveType = Constants.NORMAL_MOVE
 
@@ -79,6 +85,11 @@ class Chess
         @winner = @playerBlack
       else if toStatus == Constants.B_KING
         @winner = @playerWhite
+
+      # get the piece that is going to be captured
+      @pieceTaken = @board.get(move.toRow, move.toCol)
+      if moveType == Constants.EN_PASSANT_MOVE
+        @pieceTaken = @board.get(move.fromRow, move.toCol)
 
       # perform the move
       @prevMove = move

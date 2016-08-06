@@ -18,7 +18,7 @@ describe 'Queen', ->
       PieceTest.shouldBehaveLikeAPiece(Queen)
 
     board = new Board()
-    prevMove = new Move(-1, -1, -1, -1)
+    prevMove = new Move(Constants.NO_PIECE, -1, -1, -1, -1)
 
     row = 4
     col = 3
@@ -34,7 +34,7 @@ describe 'Queen', ->
             if r == row && c == col
               continue
 
-            move = new Move(row, col, r, c)
+            move = new Move(Constants.W_QUEEN, row, col, r, c)
 
             if r == row && c != col
               Queen.moveValid(board, move, prevMove).should.equal true
@@ -48,7 +48,7 @@ describe 'Queen', ->
       it 'cannot move to invalid squares', ->
         for r in [0 ... Constants.BOARD_SIZE]
           for c in [0 ... Constants.BOARD_SIZE]
-            move = new Move(row, col, r, c)
+            move = new Move(Constants.W_QUEEN, row, col, r, c)
 
             if r == row && c == col
               Queen.moveValid(board, move, prevMove).should.equal false
@@ -75,16 +75,16 @@ describe 'Queen', ->
 
       it 'cannot move to friendly squares', ->
         rookMoves = [
-          new Move(row, col, row + d, col),
-          new Move(row, col, row - d, col),
-          new Move(row, col, row, col + d),
-          new Move(row, col, row, col - d)
+          new Move(Constants.W_QUEEN, row, col, row + d, col),
+          new Move(Constants.W_QUEEN, row, col, row - d, col),
+          new Move(Constants.W_QUEEN, row, col, row, col + d),
+          new Move(Constants.W_QUEEN, row, col, row, col - d)
         ]
         bishopMoves = [
-          new Move(row, col, row + d, col + d),
-          new Move(row, col, row + d, col - d),
-          new Move(row, col, row - d, col + d),
-          new Move(row, col, row - d, col - d)
+          new Move(Constants.W_QUEEN, row, col, row + d, col + d),
+          new Move(Constants.W_QUEEN, row, col, row + d, col - d),
+          new Move(Constants.W_QUEEN, row, col, row - d, col + d),
+          new Move(Constants.W_QUEEN, row, col, row - d, col - d)
         ]
 
         _.forEach(rookMoves, (move) ->
@@ -96,16 +96,16 @@ describe 'Queen', ->
 
       it 'can move up to friendly squares', ->
         rookMoves = [
-          new Move(row, col, row + d - 1, col),
-          new Move(row, col, row - d + 1, col),
-          new Move(row, col, row, col + d - 1),
-          new Move(row, col, row, col - d + 1)
+          new Move(Constants.W_QUEEN, row, col, row + d - 1, col),
+          new Move(Constants.W_QUEEN, row, col, row - d + 1, col),
+          new Move(Constants.W_QUEEN, row, col, row, col + d - 1),
+          new Move(Constants.W_QUEEN, row, col, row, col - d + 1)
         ]
         bishopMoves = [
-          new Move(row, col, row + d - 1, col + d - 1),
-          new Move(row, col, row + d - 1, col - d + 1),
-          new Move(row, col, row - d + 1, col + d - 1),
-          new Move(row, col, row - d + 1, col - d + 1)
+          new Move(Constants.W_QUEEN, row, col, row + d - 1, col + d - 1),
+          new Move(Constants.W_QUEEN, row, col, row + d - 1, col - d + 1),
+          new Move(Constants.W_QUEEN, row, col, row - d + 1, col + d - 1),
+          new Move(Constants.W_QUEEN, row, col, row - d + 1, col - d + 1)
         ]
 
         _.forEach(rookMoves, (move) ->
@@ -117,16 +117,16 @@ describe 'Queen', ->
 
       it 'cannot move past friendly squares', ->
         rookMoves = [
-          new Move(row, col, row + d + 1, col),
-          new Move(row, col, row - d - 1, col),
-          new Move(row, col, row, col + d + 1),
-          new Move(row, col, row, col - d - 1)
+          new Move(Constants.W_QUEEN, row, col, row + d + 1, col),
+          new Move(Constants.W_QUEEN, row, col, row - d - 1, col),
+          new Move(Constants.W_QUEEN, row, col, row, col + d + 1),
+          new Move(Constants.W_QUEEN, row, col, row, col - d - 1)
         ]
         bishopMoves = [
-          new Move(row, col, row + d + 1, col + d + 1),
-          new Move(row, col, row + d + 1, col - d - 1),
-          new Move(row, col, row - d - 1, col + d + 1),
-          new Move(row, col, row - d - 1, col - d - 1)
+          new Move(Constants.W_QUEEN, row, col, row + d + 1, col + d + 1),
+          new Move(Constants.W_QUEEN, row, col, row + d + 1, col - d - 1),
+          new Move(Constants.W_QUEEN, row, col, row - d - 1, col + d + 1),
+          new Move(Constants.W_QUEEN, row, col, row - d - 1, col - d - 1)
         ]
 
         _.forEach(rookMoves, (move) ->
@@ -154,16 +154,16 @@ describe 'Queen', ->
 
       it 'can capture enemy pieces', ->
         rookMoves = [
-          new Move(row, col, row + d, col),
-          new Move(row, col, row - d, col),
-          new Move(row, col, row, col + d),
-          new Move(row, col, row, col - d)
+          new Move(Constants.W_QUEEN, row, col, row + d, col),
+          new Move(Constants.W_QUEEN, row, col, row - d, col),
+          new Move(Constants.W_QUEEN, row, col, row, col + d),
+          new Move(Constants.W_QUEEN, row, col, row, col - d)
         ]
         bishopMoves = [
-          new Move(row, col, row + d, col + d),
-          new Move(row, col, row + d, col - d),
-          new Move(row, col, row - d, col + d),
-          new Move(row, col, row - d, col - d)
+          new Move(Constants.W_QUEEN, row, col, row + d, col + d),
+          new Move(Constants.W_QUEEN, row, col, row + d, col - d),
+          new Move(Constants.W_QUEEN, row, col, row - d, col + d),
+          new Move(Constants.W_QUEEN, row, col, row - d, col - d)
         ]
         _.forEach(rookMoves, (move) ->
           Queen.moveValid(board, move, prevMove).should.equal true
@@ -174,16 +174,16 @@ describe 'Queen', ->
 
       it 'can move up to enemy pieces', ->
         rookMoves = [
-          new Move(row, col, row + d - 1, col),
-          new Move(row, col, row - d + 1, col),
-          new Move(row, col, row, col + d - 1),
-          new Move(row, col, row, col - d + 1)
+          new Move(Constants.W_QUEEN, row, col, row + d - 1, col),
+          new Move(Constants.W_QUEEN, row, col, row - d + 1, col),
+          new Move(Constants.W_QUEEN, row, col, row, col + d - 1),
+          new Move(Constants.W_QUEEN, row, col, row, col - d + 1)
         ]
         bishopMoves = [
-          new Move(row, col, row + d - 1, col + d - 1),
-          new Move(row, col, row + d - 1, col - d + 1),
-          new Move(row, col, row - d + 1, col + d - 1),
-          new Move(row, col, row - d + 1, col - d + 1)
+          new Move(Constants.W_QUEEN, row, col, row + d - 1, col + d - 1),
+          new Move(Constants.W_QUEEN, row, col, row + d - 1, col - d + 1),
+          new Move(Constants.W_QUEEN, row, col, row - d + 1, col + d - 1),
+          new Move(Constants.W_QUEEN, row, col, row - d + 1, col - d + 1)
         ]
 
         _.forEach(rookMoves, (move) ->
@@ -195,16 +195,16 @@ describe 'Queen', ->
 
       it 'cannot move past enemy pieces', ->
         rookMoves = [
-          new Move(row, col, row + d + 1, col),
-          new Move(row, col, row - d - 1, col),
-          new Move(row, col, row, col + d + 1),
-          new Move(row, col, row, col - d - 1)
+          new Move(Constants.W_QUEEN, row, col, row + d + 1, col),
+          new Move(Constants.W_QUEEN, row, col, row - d - 1, col),
+          new Move(Constants.W_QUEEN, row, col, row, col + d + 1),
+          new Move(Constants.W_QUEEN, row, col, row, col - d - 1)
         ]
         bishopMoves = [
-          new Move(row, col, row + d + 1, col + d + 1),
-          new Move(row, col, row + d + 1, col - d - 1),
-          new Move(row, col, row - d - 1, col + d + 1),
-          new Move(row, col, row - d - 1, col - d - 1)
+          new Move(Constants.W_QUEEN, row, col, row + d + 1, col + d + 1),
+          new Move(Constants.W_QUEEN, row, col, row + d + 1, col - d - 1),
+          new Move(Constants.W_QUEEN, row, col, row - d - 1, col + d + 1),
+          new Move(Constants.W_QUEEN, row, col, row - d - 1, col - d - 1)
         ]
 
         _.forEach(rookMoves, (move) ->

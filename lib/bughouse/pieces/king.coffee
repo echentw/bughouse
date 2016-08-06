@@ -12,8 +12,6 @@ class King extends Piece
     [1, -1], [1, 0], [1, 1]
   ]
 
-  constructor: ->
-
   @moveValid: (board, move, prevMove) ->
     if @isDrop(move)
       return @dropValid(board, move)

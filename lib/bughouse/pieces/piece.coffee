@@ -5,8 +5,6 @@ Square = require('../helpers/square')
 
 class Piece
 
-  constructor: ->
-
   # Returns true iff the move is valid.
   # Assumes that the moves respect the board boundaries.
   #

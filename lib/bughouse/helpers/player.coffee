@@ -20,8 +20,7 @@ class Player
       Constants.KNIGHT: 0,
       Constants.BISHOP: 0,
       Constants.ROOK: 0,
-      Constants.QUEEN: 0,
-      Constants.KING: 0
+      Constants.QUEEN: 0
     }
 
   # Remove a piece from the serve.

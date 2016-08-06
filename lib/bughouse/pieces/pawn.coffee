@@ -4,7 +4,12 @@ Square = require('../helpers/square')
 
 class Pawn extends Piece
 
-  constructor: ->
+  @dropValid: (board, move) ->
+    if !super(board, move)
+      return false
+    if move.toRow == 0 || move.toRow == Constants.BOARD_SIZE - 1
+      return false
+    return true
 
   @moveValid: (board, move, prevMove) ->
     if @isDrop(move)

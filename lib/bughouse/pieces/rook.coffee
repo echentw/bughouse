@@ -4,8 +4,6 @@ Square = require('../helpers/square')
 
 class Rook extends Piece
 
-  constructor: ->
-
   @moveValid: (board, move, prevMove) ->
     if @isDrop(move)
       return @dropValid(board, move)
