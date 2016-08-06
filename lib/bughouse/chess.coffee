@@ -36,6 +36,13 @@ class Chess
     if @winner != null
       return false
 
+    if move.fromRow != -1 && move.fromCol != -1
+      if !Square.inBoard(move.fromRow, move.fromCol)
+        return false
+    else
+      if move.fromRow != -1 || move.fromCol != -1
+        return false
+
     if move.fromRow != -1
       if move.piece != @board.get(move.fromRow, move.fromCol)
         return false

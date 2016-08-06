@@ -1,7 +1,6 @@
 Constants = require('./constants')
 
 class Square
-  constructor: ->
 
   # Returns true iff (row, col) is within the bounds of the chessboard.
   #

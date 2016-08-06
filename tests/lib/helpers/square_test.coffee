@@ -3,6 +3,7 @@ chai.should()
 
 Constants = require('../../../lib/bughouse/helpers/constants')
 Square = require('../../../lib/bughouse/helpers/square')
+Board = require('../../../lib/bughouse/helpers/board')
 
 describe 'Square', ->
 
@@ -23,8 +24,8 @@ describe 'Square', ->
       Square.inBoard(validRow, validCol).should.equal true
 
   describe 'getStatus()', ->
-    board = ((Constants.NO_PIECE for i in [0 ... Constants.BOARD_SIZE]) \
-                                 for j in [0 ... Constants.BOARD_SIZE])
+    board = new Board()
+    board.clear()
 
     wRow = 3
     wCol = 5
@@ -32,8 +33,8 @@ describe 'Square', ->
     bRow = 2
     bCol = 4
 
-    board[wRow][wCol] = Constants.W_BISHOP
-    board[bRow][bCol] = Constants.B_BISHOP
+    board.set(wRow, wCol, Constants.W_BISHOP)
+    board.set(bRow, bCol, Constants.B_BISHOP)
 
     it 'no piece', ->
       for row in [0 ... Constants.BOARD_SIZE]
