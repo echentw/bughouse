@@ -1,4 +1,4 @@
-class Channel
+class Game
   constructor: ->
     @users = {}
     @disconnectedUsers = {}
@@ -21,7 +21,7 @@ class Channel
     return false
 
   # maintain a more stable connection
-  # remove the user from the channel after 1.5 seconds,
+  # remove the user from the game after 1.5 seconds,
   # if user has not reconnected within that time
   setTimeout: (username) =>
     if username of @users
@@ -41,4 +41,4 @@ class Channel
   empty: ->
     return Object.keys(@users).length == 0
 
-module.exports = Channel
+module.exports = Game
