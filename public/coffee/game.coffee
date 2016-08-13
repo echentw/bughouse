@@ -14,10 +14,6 @@ require(['jquery', 'client', 'chessboard'], ($, Client) ->
 
     client = new Client(gameID, username)
 
-    $('#ping').click( ->
-      client.ping()
-    )
-
     $('.sit-btn').click((event) ->
       id = event.target.id
       seatNum = Number(id[id.length - 1])

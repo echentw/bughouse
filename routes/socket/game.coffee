@@ -45,18 +45,6 @@ disconnect = ->
         database.delete(session.gameID)
   , 2000)
 
-hit = (data) ->
-  socket = this
-  session = socket.handshake.session
-
-  if session.gameID != data.gameID ||
-      session.username != data.username
-    return
-
-  message = session.username + ' pinged game ' + session.gameID
-  io.sockets.in(session.gameID).emit('update', {message: message})
-  console.log message
-
 module.exports.attach = (socketIO, db) ->
   database = db
   io = socketIO
@@ -64,5 +52,4 @@ module.exports.attach = (socketIO, db) ->
   io.sockets.on('connection', (socket) ->
     socket.on('join', join)
     socket.on('disconnect', disconnect)
-    socket.on('hit', hit)
   )

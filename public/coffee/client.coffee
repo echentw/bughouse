@@ -7,9 +7,6 @@ define(['socket-io'], (io) ->
       @socket = getSocket()
       @socket.emit('join', {gameID: gameID, username: username})
 
-    ping: =>
-      @socket.emit('hit', {gameID: @gameID, username: @username})
-
     sit: (seatNum) =>
       @socket.emit('sit', {gameID: @gameID, username: @username, seatNum: seatNum})
 
