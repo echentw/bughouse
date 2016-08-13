@@ -14,6 +14,7 @@ debug = require('debug')('games:server')
 homeRoutes = require('./routes/http/home')
 gameRoutes = require('./routes/http/game')
 gameSocketRoutes = require('./routes/socket/game')
+setupSocketRoutes = require('./routes/socket/setup')
 
 Database = require('./lib/db')
 
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 homeRoutes.attach(app, database)
 gameRoutes.attach(app, database)
 gameSocketRoutes.attach(io, database)
+setupSocketRoutes.attach(io, database)
 
 io.use(sharedSession(session, {autoSave:true}))
 
