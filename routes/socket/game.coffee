@@ -40,7 +40,7 @@ disconnect = ->
       console.log message
 
       if game.empty()
-        database.delete(gameID)
+        database.delete(session.gameID)
   , 2000)
 
 hit = (data) ->
