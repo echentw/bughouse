@@ -17,11 +17,20 @@ define(['socket-io'], (io) ->
       socket = io.connect()
       socket.on('update', (data) ->
         console.log data.message
+        updateSeats(data.seats)
       )
       socket.on('error', (data) ->
         console.log data.message
       )
+      socket.on('seated', (data) ->
+        updateSeats(data.seats)
+      )
       return socket
+
+    updateSeats = (seats) ->
+      for seatNum of seats
+        id = '#seat' + seatNum
+        $(id).text(seats[seatNum])
 
   return Client
 )

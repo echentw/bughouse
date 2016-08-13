@@ -20,9 +20,11 @@ sit = (data) ->
   if isNaN(seatNum) || seatNum < 1 || seatNum > 4
     return
 
-  # TODO: do something
-  console.log 'sat in seat ' + seatNum
+  result = game.seatUser(username, seatNum)
+  if !result.success
+    return
 
+  io.sockets.in(gameID).emit('seated', {seats: result.seats})
 
 module.exports.attach = (socketIO, db) ->
   database = db

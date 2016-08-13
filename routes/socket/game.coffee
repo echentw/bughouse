@@ -18,7 +18,9 @@ join = (data) ->
   game.connectSocket(username)
 
   message = username + ' joined game ' + gameID
-  io.sockets.in(gameID).emit('update', {message: message})
+  seats = game.getSeats()
+  io.sockets.in(gameID).emit('update', {message: message, seats: seats})
+
   console.log message
 
 disconnect = ->

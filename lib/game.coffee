@@ -5,6 +5,12 @@ class Game
   constructor: ->
     @users = {}
     @disconnectedUsers = {}
+    @seats = {
+      1: null,
+      2: null,
+      3: null,
+      4: null
+    }
     @players = {
       1: null,
       2: null,
@@ -12,6 +18,7 @@ class Game
       4: null
     }
     @bughouse = null
+    @gameStarted = false
 
   findUser: (username) =>
     return username of @users
@@ -23,12 +30,23 @@ class Game
     return true
 
   seatUser: (username, seatNum) =>
-    if @players[seatNum] != null
-      @players[seatNum] = username
+    if @seats[seatNum] != null
+      return {success: false, seats: @seats}
+
     for i in [1...5]
-      if @players[seatNum] == null
-        return
+      if @seats[i] == username
+        return {success: false, seats: @seats}
+
+    @seats[seatNum] = username
+    for i in [1...5]
+      if @seats[i] == null
+        return {success: true, seats: @seats}
+
     @startGame()
+    return {success: true, seats: @seats}
+
+  getSeats: =>
+    return @seats
 
   startGame: =>
     @players[1] = new Player(1, 0) # team 1, white
@@ -36,6 +54,7 @@ class Game
     @players[3] = new Player(2, 1) # team 2, black
     @players[4] = new Player(2, 0) # team 2, white
     @bughouse = new Bughouse(@players[1], @players[2], @players[3], @players[4])
+    @gameStarted = true
 
   removeUser: (username) =>
     if username of @users

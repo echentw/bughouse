@@ -1,6 +1,6 @@
 _ = require('lodash')
 
-Team = require('./helper/team')
+Team = require('./helpers/team')
 Chess = require('./chess')
 
 class Bughouse
@@ -83,11 +83,17 @@ class Bughouse
 
   getColorBlindPiece = (piece) ->
     switch @board.get(move.fromRow, move.fromCol)
-      when Constants.W_PAWN, Constants.B_PAWN return Constants.PAWN
-      when Constants.W_KNIGHT, Constants.B_KNIGHT return Constants.KNIGHT
-      when Constants.W_BISHOP, Constants.B_BISHOP return Constants.BISHOP
-      when Constants.W_ROOK, Constants.B_ROOK return Constants.ROOK
-      when Constants.W_QUEEN, Constants.B_QUEEN return Constants.QUEEN
-      when Constants.W_KING, Constants.B_KING return Constants.KING
+      when Constants.W_PAWN, Constants.B_PAWN
+        return Constants.PAWN
+      when Constants.W_KNIGHT, Constants.B_KNIGHT
+        return Constants.KNIGHT
+      when Constants.W_BISHOP, Constants.B_BISHOP
+        return Constants.BISHOP
+      when Constants.W_ROOK, Constants.B_ROOK
+        return Constants.ROOK
+      when Constants.W_QUEEN, Constants.B_QUEEN
+        return Constants.QUEEN
+      when Constants.W_KING, Constants.B_KING
+        return Constants.KING
 
 module.exports = Bughouse
