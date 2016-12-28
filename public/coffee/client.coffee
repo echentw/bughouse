@@ -1,11 +1,14 @@
 define(['socket-io'], (io) ->
 
   class Client
-    constructor: (gameID, username) ->
+    constructor: (gameID, username, board1, board2) ->
       @gameID = gameID
       @username = username
       @socket = getSocket()
       @socket.emit('join', {gameID: gameID, username: username})
+
+      @board1 = board1
+      @board2 = board2
 
     sit: (seatNum) =>
       @socket.emit('sit', {gameID: @gameID, username: @username, seatNum: seatNum})
@@ -21,6 +24,9 @@ define(['socket-io'], (io) ->
       )
       socket.on('seated', (data) ->
         updateSeats(data.seats)
+      )
+      socket.on('start', ->
+        # TODO: implement this
       )
       return socket
 

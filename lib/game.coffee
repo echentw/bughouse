@@ -20,6 +20,9 @@ class Game
     @bughouse = null
     @gameStarted = false
 
+  move: (move) =>
+    @bughouse.move(move)
+
   findUser: (username) =>
     return username of @users
 

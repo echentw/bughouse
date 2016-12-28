@@ -69,6 +69,7 @@ sit = (data) ->
     return
 
   io.sockets.in(gameID).emit('seated', {seats: result.seats})
+  io.sockets.in(gameID).emit('start')
 
 module.exports.attach = (socketIO, db) ->
   database = db
